@@ -1,0 +1,21 @@
+{
+  "cells_total": 500,
+  "cells_ok": 500,
+  "cells_failed": 0,
+  "criteria": [
+    "aic",
+    "aicc",
+    "bic",
+    "blocked_validation",
+    "waic_laplace",
+    "ogic_p",
+    "gic_eff",
+    "gic_vol_025",
+    "gic_vol_050",
+    "gic_vol_100",
+    "ogic_e"
+  ],
+  "diagnostic_nonfinite": {
+    "waic_laplace": 4
+  }
+}

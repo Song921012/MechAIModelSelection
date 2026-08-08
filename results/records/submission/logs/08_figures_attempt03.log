@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "C:\Users\aidishage\Desktop\MyProjects\GeoParaEstim\Paper\ModelSelection\experiments\make_numerical_v2_figures.py", line 445, in <module>
+    main()
+  File "C:\Users\aidishage\Desktop\MyProjects\GeoParaEstim\Paper\ModelSelection\experiments\make_numerical_v2_figures.py", line 431, in main
+    model_recovery()
+  File "C:\Users\aidishage\Desktop\MyProjects\GeoParaEstim\Paper\ModelSelection\experiments\make_numerical_v2_figures.py", line 111, in model_recovery
+    ax.errorbar(mean, row, xerr=[[mean - low], [high - mean]], fmt="o",
+  File "C:\Users\aidishage\miniconda3\Lib\site-packages\matplotlib\_api\deprecation.py", line 453, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aidishage\miniconda3\Lib\site-packages\matplotlib\__init__.py", line 1521, in inner
+    return func(
+           ^^^^^
+  File "C:\Users\aidishage\miniconda3\Lib\site-packages\matplotlib\axes\_axes.py", line 3819, in errorbar
+    raise ValueError(
+ValueError: 'xerr' must not contain negative values

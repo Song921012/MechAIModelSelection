@@ -1,0 +1,9 @@
+criterion,recovery_rate,n,modal_selection
+aic,1.0,20,rm
+aicc,1.0,20,rm
+bic,1.0,20,rm
+gic_eff,1.0,20,rm
+gic_vol_050,1.0,20,rm
+ogic_e,1.0,20,rm
+ogic_p,0.85,20,rm
+waic_laplace,0.15,20,lv

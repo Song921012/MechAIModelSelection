@@ -1,0 +1,85 @@
+{
+  "schema_version": "2.0",
+  "protocol_hash": "618a99ab1a2e5054",
+  "status": "ok",
+  "n_times": 20,
+  "noise": 0.005,
+  "trajectories": 4,
+  "truth": "ude_sir_h2",
+  "candidate": "sir",
+  "seed": 13,
+  "dimension": 2,
+  "n_observations": 80,
+  "theta": [
+    -0.2971331241999805,
+    -1.2380300311539352
+  ],
+  "objective": 1578.0021784134142,
+  "deviance": 3155.8594104376,
+  "gradient_norm": 0.0021947953343362634,
+  "best_start": 0,
+  "start_diagnostics": [
+    {
+      "start": 0,
+      "objective": 1578.0021784136313,
+      "deviance": 3155.8594104008175,
+      "gradient_norm": 0.007027284158703455,
+      "iterations": 157,
+      "finite": true,
+      "wall_seconds": 47.95314909999797
+    },
+    {
+      "start": 1,
+      "objective": 1578.0021784137602,
+      "deviance": 3155.859410519571,
+      "gradient_norm": 0.008512196466418633,
+      "iterations": 159,
+      "finite": true,
+      "wall_seconds": 48.537419899999804
+    },
+    {
+      "start": 2,
+      "objective": 1578.002178413686,
+      "deviance": 3155.8594103892424,
+      "gradient_norm": 0.007547385837455591,
+      "iterations": 156,
+      "finite": true,
+      "wall_seconds": 47.75030840000181
+    },
+    {
+      "stage": "refinement",
+      "start": 0,
+      "objective": 1578.0021784134142,
+      "deviance": 3155.8594104376,
+      "gradient_norm": 0.0021947953343362634,
+      "iterations": 9,
+      "finite": true,
+      "wall_seconds": 3.0850472999991325
+    }
+  ],
+  "wall_seconds": 147.32596510000076,
+  "second_best_objective_gap": 5.4569682106375694e-11,
+  "jacobian_rank": 2,
+  "information": [
+    [
+      252040.27595156158,
+      -126561.3267787288
+    ],
+    [
+      -126561.3267787288,
+      159730.769723728
+    ]
+  ],
+  "aic": 3159.8594104376,
+  "aicc": 3160.0152545934443,
+  "bic": 3164.623463706948,
+  "gic_eff": 3164.6233892717614,
+  "gic_vol_025": 3170.6012194526015,
+  "gic_vol_050": 3176.579049633441,
+  "gic_vol_100": 3188.534709995121,
+  "ogic_p": 3159.85937646465,
+  "ogic_e": 3179.915677550188,
+  "d_obs": 1.9999830135247982,
+  "c_obs": 23.9113207233597,
+  "prior_energy": 0.1449463892279844
+}

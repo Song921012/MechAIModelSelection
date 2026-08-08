@@ -1,0 +1,14 @@
+criterion,model,count
+aic,SIR,42
+aic,TV-SIR,8
+bic,SIR,50
+cv,Duplicate-UDE,10
+cv,Redundant-SIR,27
+cv,SIR,27
+cv,TV-SIR,13
+gic_aic,Duplicate-UDE,20
+gic_aic,Redundant-SIR,28
+gic_aic,TV-SIR,2
+gic_eff,Duplicate-UDE,18
+gic_eff,Redundant-SIR,31
+gic_eff,TV-SIR,1

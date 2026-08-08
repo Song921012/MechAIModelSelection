@@ -1,0 +1,12 @@
+{
+  "schema_version": "2.0",
+  "protocol_hash": "ccd59167502f0bea",
+  "status": "ok",
+  "scenario": "regular_sir_full",
+  "candidate": "neural_ode_h2",
+  "truth": "sir",
+  "seed": 19,
+  "draws": 512,
+  "waic_laplace": 48770.560644890604,
+  "p_waic": 24633.310160990917
+}

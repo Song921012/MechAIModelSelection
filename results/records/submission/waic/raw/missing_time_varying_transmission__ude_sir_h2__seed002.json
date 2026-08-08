@@ -1,0 +1,12 @@
+{
+  "schema_version": "2.0",
+  "protocol_hash": "5f85d26868bbdc2f",
+  "status": "ok",
+  "scenario": "missing_time_varying_transmission",
+  "candidate": "ude_sir_h2",
+  "truth": "tv_sir",
+  "seed": 2,
+  "draws": 512,
+  "waic_laplace": 37234.0209029757,
+  "p_waic": 18699.165703454062
+}

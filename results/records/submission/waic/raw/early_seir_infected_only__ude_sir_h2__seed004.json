@@ -1,0 +1,12 @@
+{
+  "schema_version": "2.0",
+  "protocol_hash": "bd0f7afc8931872d",
+  "status": "ok",
+  "scenario": "early_seir_infected_only",
+  "candidate": "ude_sir_h2",
+  "truth": "seir",
+  "seed": 4,
+  "draws": 512,
+  "waic_laplace": 3428.4797148484945,
+  "p_waic": 1744.2840378694116
+}

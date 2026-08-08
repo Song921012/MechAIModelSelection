@@ -1,0 +1,11 @@
+profile = "submission"
+[seeds]
+core = 80
+phase = 20
+cross-domain = 30
+predictive = 40
+waic = 20
+[waic]
+draws = 512
+[confidence]
+replicates = 200

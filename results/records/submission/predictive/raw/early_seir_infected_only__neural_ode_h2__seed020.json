@@ -1,0 +1,164 @@
+{
+  "schema_version": "2.0",
+  "protocol_hash": "1643d0ad67a8e29a",
+  "status": "ok",
+  "scenario": "early_seir_infected_only",
+  "candidate": "neural_ode_h2",
+  "truth": "seir",
+  "seed": 20,
+  "folds": [
+    {
+      "fold": 0,
+      "train_end": 8,
+      "validation_start": 8,
+      "validation_end": 10,
+      "pointwise_log_density": [
+        2.760791151558969,
+        2.290235712121591
+      ],
+      "objective": -8.036866994857876,
+      "gradient_norm": 6.224259984091541e-06,
+      "start_diagnostics": [
+        {
+          "start": 0,
+          "objective": -8.036866994006722,
+          "deviance": -36.28685639197845,
+          "gradient_norm": 9.327401732248148e-05,
+          "iterations": 119,
+          "finite": true,
+          "wall_seconds": 7.321833700000752
+        },
+        {
+          "start": 1,
+          "objective": -8.036866994645525,
+          "deviance": -36.28684195902794,
+          "gradient_norm": 3.723841595554743e-05,
+          "iterations": 117,
+          "finite": true,
+          "wall_seconds": 7.119907199999943
+        },
+        {
+          "start": 2,
+          "objective": -8.036866992475954,
+          "deviance": -36.28687613576346,
+          "gradient_norm": 0.00017109699212674749,
+          "iterations": 119,
+          "finite": true,
+          "wall_seconds": 7.239204799999243
+        },
+        {
+          "stage": "refinement",
+          "start": 1,
+          "objective": -8.036866994857876,
+          "deviance": -36.28684080690841,
+          "gradient_norm": 6.224259984091541e-06,
+          "iterations": 5,
+          "finite": true,
+          "wall_seconds": 0.38031690000025264
+        }
+      ]
+    },
+    {
+      "fold": 1,
+      "train_end": 10,
+      "validation_start": 10,
+      "validation_end": 12,
+      "pointwise_log_density": [
+        2.987096171524998,
+        0.1668336209440464
+      ],
+      "objective": -13.133182888256211,
+      "gradient_norm": 1.1492819186486204e-05,
+      "start_diagnostics": [
+        {
+          "start": 0,
+          "objective": -13.133182880826197,
+          "deviance": -46.368619627662376,
+          "gradient_norm": 0.0002295877281311929,
+          "iterations": 119,
+          "finite": true,
+          "wall_seconds": 7.239601000000221
+        },
+        {
+          "start": 1,
+          "objective": -13.133182887244217,
+          "deviance": -46.36868211975688,
+          "gradient_norm": 0.00011896478815071607,
+          "iterations": 120,
+          "finite": true,
+          "wall_seconds": 7.326246600000559
+        },
+        {
+          "start": 2,
+          "objective": -13.133182888133174,
+          "deviance": -46.36865981257139,
+          "gradient_norm": 3.2894522177288666e-05,
+          "iterations": 120,
+          "finite": true,
+          "wall_seconds": 7.321391800000129
+        },
+        {
+          "stage": "refinement",
+          "start": 2,
+          "objective": -13.133182888256211,
+          "deviance": -46.36865442960099,
+          "gradient_norm": 1.1492819186486204e-05,
+          "iterations": 35,
+          "finite": true,
+          "wall_seconds": 2.174515600000632
+        }
+      ]
+    },
+    {
+      "fold": 2,
+      "train_end": 11,
+      "validation_start": 11,
+      "validation_end": 13,
+      "pointwise_log_density": [
+        0.2621039866101409,
+        2.646412014390843
+      ],
+      "objective": -16.12202087346392,
+      "gradient_norm": 1.1828315891972183e-05,
+      "start_diagnostics": [
+        {
+          "start": 0,
+          "objective": -16.122020873262315,
+          "deviance": -52.341876158214504,
+          "gradient_norm": 4.468549695545254e-05,
+          "iterations": 120,
+          "finite": true,
+          "wall_seconds": 7.302958299999773
+        },
+        {
+          "start": 1,
+          "objective": -16.122020873144557,
+          "deviance": -52.34187762456302,
+          "gradient_norm": 5.3688886552831674e-05,
+          "iterations": 119,
+          "finite": true,
+          "wall_seconds": 7.241311800000403
+        },
+        {
+          "start": 2,
+          "objective": -16.122020872739935,
+          "deviance": -52.34187995558677,
+          "gradient_norm": 8.433874987780572e-05,
+          "iterations": 119,
+          "finite": true,
+          "wall_seconds": 7.2393958000002385
+        },
+        {
+          "stage": "refinement",
+          "start": 0,
+          "objective": -16.12202087346392,
+          "deviance": -52.34186944391763,
+          "gradient_norm": 1.1828315891972183e-05,
+          "iterations": 59,
+          "finite": true,
+          "wall_seconds": 3.6004813999998078
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": "2.0",
+  "protocol_hash": "e838281fa0e21084",
+  "status": "ok",
+  "scenario": "noisy_sir_overfit_risk",
+  "candidate": "seir",
+  "truth": "sir",
+  "seed": 7,
+  "draws": 512,
+  "waic_laplace": -9.232263791723224,
+  "p_waic": 41.45089056995487
+}

@@ -1,0 +1,115 @@
+{
+  "schema_version": "2.0",
+  "protocol_hash": "4ae7791832105e8d",
+  "status": "ok",
+  "study": "biochemical_haldane",
+  "domain": "biochemical",
+  "truth": "haldane",
+  "candidate": "haldane",
+  "seed": 13,
+  "n_observations": 25,
+  "dimension": 3,
+  "theta": [
+    -0.05178527259139619,
+    -1.4599333494517395,
+    -1.0193107672448223
+  ],
+  "objective": -80.63702632311494,
+  "deviance": -161.54330243848926,
+  "gradient_norm": 0.00038907985491201896,
+  "best_start": 2,
+  "start_diagnostics": [
+    {
+      "start": 0,
+      "objective": -80.63685264676778,
+      "deviance": -161.5335240241883,
+      "gradient_norm": 1.5865868861921928,
+      "iterations": 219,
+      "finite": true,
+      "wall_seconds": 15.804660000001604
+    },
+    {
+      "start": 1,
+      "objective": -80.63701884728438,
+      "deviance": -161.5441734215259,
+      "gradient_norm": 0.3615217202751878,
+      "iterations": 217,
+      "finite": true,
+      "wall_seconds": 15.608719799995015
+    },
+    {
+      "start": 2,
+      "objective": -80.63702632305527,
+      "deviance": -161.5433021240366,
+      "gradient_norm": 0.0022545559137771448,
+      "iterations": 209,
+      "finite": true,
+      "wall_seconds": 15.18389059999754
+    },
+    {
+      "start": 3,
+      "objective": -80.6370257403578,
+      "deviance": -161.5428406089397,
+      "gradient_norm": 0.09812743988544376,
+      "iterations": 218,
+      "finite": true,
+      "wall_seconds": 15.675966900002095
+    },
+    {
+      "start": 4,
+      "objective": -80.63686979529928,
+      "deviance": -161.53438164021253,
+      "gradient_norm": 2.025890151449985,
+      "iterations": 218,
+      "finite": true,
+      "wall_seconds": 15.854741300005116
+    },
+    {
+      "stage": "refinement",
+      "start": 2,
+      "objective": -80.63702632311494,
+      "deviance": -161.54330243848926,
+      "gradient_norm": 0.00038907985491201896,
+      "iterations": 17,
+      "finite": true,
+      "wall_seconds": 1.3481615999990026
+    }
+  ],
+  "second_best_objective_gap": 5.826974671663265e-07,
+  "wall_seconds": 79.47619879999547,
+  "jacobian_rank": 3,
+  "information": [
+    [
+      66334.33691738342,
+      -9244.153905357422,
+      36641.878702460206
+    ],
+    [
+      -9244.153905357422,
+      1427.6560133058836,
+      -4940.35108185422
+    ],
+    [
+      36641.878702460206,
+      -4940.35108185422,
+      20445.699858288994
+    ]
+  ],
+  "generalized_eigenvalues": [
+    2.6511982562618437,
+    311.9860829936599,
+    87893.0554989076
+  ],
+  "aic": -155.54330243848926,
+  "aicc": -154.40044529563212,
+  "bic": -151.88667496388467,
+  "gic_eff": -152.77859036126986,
+  "gic_vol_025": -148.1723149655783,
+  "gic_vol_050": -143.56603956988675,
+  "gic_vol_100": -134.35348877850362,
+  "ogic_p": -156.0974806335563,
+  "ogic_e": -142.84895106346363,
+  "d_obs": 2.7229109024664786,
+  "c_obs": 18.425101582766246,
+  "prior_energy": 0.2692497922593951
+}

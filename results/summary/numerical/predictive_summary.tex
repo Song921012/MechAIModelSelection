@@ -1,0 +1,20 @@
+\begin{tabular}{llrrrr}
+\toprule
+Setting & Combination & MSE [95\% CI] & Log score & Coverage & Width\\
+\midrule
+SEIR, early partial observation & AIC weights & 0.0012 [0.000746, 0.00178] & 1.96 & 0.967 & 0.139\\
+SEIR, early partial observation & BIC weights & 0.00115 [0.000678, 0.00174] & 1.98 & 0.963 & 0.134\\
+SEIR, early partial observation & Equal & 0.00197 [0.00147, 0.00251] & 1.67 & 0.963 & 0.165\\
+SEIR, early partial observation & GIC-eff weights & 0.00134 [0.000867, 0.00192] & 1.85 & 0.967 & 0.153\\
+SEIR, early partial observation & GIC-vol weights & 0.00133 [0.000821, 0.00195] & 1.84 & 0.950 & 0.15\\
+SEIR, early partial observation & Hard GIC-eff & 0.00149 [0.000861, 0.00225] & 1.67 & 0.908 & 0.137\\
+SEIR, early partial observation & Stacking & 0.00201 [0.00133, 0.00283] & 1.44 & 0.850 & 0.139\\
+Missing neural feedback & AIC weights & 4.16e-05 [3.35e-05, 5.03e-05] & 3.18 & 1.000 & 0.05\\
+Missing neural feedback & BIC weights & 4.23e-05 [3.41e-05, 5.07e-05] & 3.18 & 1.000 & 0.0499\\
+Missing neural feedback & Equal & 3.26e-05 [2.49e-05, 4.12e-05] & 3.02 & 1.000 & 0.0617\\
+Missing neural feedback & GIC-eff weights & 1.77e-05 [1.03e-05, 2.7e-05] & 3.11 & 1.000 & 0.0569\\
+Missing neural feedback & GIC-vol weights & 1.64e-05 [9.73e-06, 2.41e-05] & 3.12 & 1.000 & 0.0569\\
+Missing neural feedback & Hard GIC-eff & 8.89e-05 [6.96e-05, 0.000109] & 3.07 & 1.000 & 0.0508\\
+Missing neural feedback & Stacking & 5.27e-05 [3.91e-05, 6.76e-05] & 3.06 & 1.000 & 0.0565\\
+\bottomrule
+\end{tabular}

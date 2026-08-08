@@ -1,0 +1,12 @@
+{
+  "schema_version": "2.0",
+  "protocol_hash": "145d02370aaf773d",
+  "status": "ok",
+  "scenario": "missing_neural_feedback",
+  "candidate": "neural_ode_h2",
+  "truth": "ude_sir_h2",
+  "seed": 1,
+  "draws": 512,
+  "waic_laplace": 3917.7900177400525,
+  "p_waic": 2047.817148094842
+}

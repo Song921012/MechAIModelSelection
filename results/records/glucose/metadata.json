@@ -1,0 +1,20 @@
+{
+  "repository": "https://github.com/Computational-Biology-TUe/ude-regularization",
+  "commit": "e460ee00150a1b82d1cc0e5301c9839f662898e4",
+  "license": "MIT",
+  "accessed": "2026-07-31",
+  "glucose_sha256": "d93fc030c54a1624e7a2a52c4d1c43a7cd66f086cf2eaa290f948c8b3cf8e5dc",
+  "insulin_sha256": "f6f2fb91045529b38a7e722edec65c7379b44cae307f504018478de182f22b16",
+  "bootstrap_replicates": 30,
+  "training_times_minutes": [
+    0,
+    15,
+    30,
+    60,
+    120
+  ],
+  "held_out_times_minutes": [
+    180,
+    240
+  ]
+}

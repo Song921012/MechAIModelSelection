@@ -1,0 +1,261 @@
+[
+  {
+    "file": "early_seir_infected_only__neural_ode_h2__seed000.json",
+    "study": "early_seir_infected_only",
+    "candidate": "neural_ode_h2",
+    "status": "ok",
+    "objective": -26.393161767690252
+  },
+  {
+    "file": "early_seir_infected_only__seir__seed000.json",
+    "study": "early_seir_infected_only",
+    "candidate": "seir",
+    "status": "ok",
+    "objective": -39.70390066458802
+  },
+  {
+    "file": "early_seir_infected_only__sir__seed000.json",
+    "study": "early_seir_infected_only",
+    "candidate": "sir",
+    "status": "ok",
+    "objective": -38.549765789753195
+  },
+  {
+    "file": "early_seir_infected_only__tv_sir__seed000.json",
+    "study": "early_seir_infected_only",
+    "candidate": "tv_sir",
+    "status": "ok",
+    "objective": -39.83701094688413
+  },
+  {
+    "file": "early_seir_infected_only__ude_sir_h2__seed000.json",
+    "study": "early_seir_infected_only",
+    "candidate": "ude_sir_h2",
+    "status": "ok",
+    "objective": -38.84314379213282
+  },
+  {
+    "file": "missing_neural_feedback__neural_ode_h2__seed000.json",
+    "study": "missing_neural_feedback",
+    "candidate": "neural_ode_h2",
+    "status": "ok",
+    "objective": -21.6882663393666
+  },
+  {
+    "file": "missing_neural_feedback__seir__seed000.json",
+    "study": "missing_neural_feedback",
+    "candidate": "seir",
+    "status": "ok",
+    "objective": -53.50713296836452
+  },
+  {
+    "file": "missing_neural_feedback__sir__seed000.json",
+    "study": "missing_neural_feedback",
+    "candidate": "sir",
+    "status": "ok",
+    "objective": -14.454469661974539
+  },
+  {
+    "file": "missing_neural_feedback__tv_sir__seed000.json",
+    "study": "missing_neural_feedback",
+    "candidate": "tv_sir",
+    "status": "ok",
+    "objective": -95.40740118193888
+  },
+  {
+    "file": "missing_neural_feedback__ude_sir_h2__seed000.json",
+    "study": "missing_neural_feedback",
+    "candidate": "ude_sir_h2",
+    "status": "ok",
+    "objective": -98.12798582462796
+  },
+  {
+    "file": "missing_time_varying_transmission__neural_ode_h2__seed000.json",
+    "study": "missing_time_varying_transmission",
+    "candidate": "neural_ode_h2",
+    "status": "ok",
+    "objective": 129.6858255489592
+  },
+  {
+    "file": "missing_time_varying_transmission__seir__seed000.json",
+    "study": "missing_time_varying_transmission",
+    "candidate": "seir",
+    "status": "ok",
+    "objective": -97.87712217406609
+  },
+  {
+    "file": "missing_time_varying_transmission__sir__seed000.json",
+    "study": "missing_time_varying_transmission",
+    "candidate": "sir",
+    "status": "ok",
+    "objective": -62.346901615242864
+  },
+  {
+    "file": "missing_time_varying_transmission__tv_sir__seed000.json",
+    "study": "missing_time_varying_transmission",
+    "candidate": "tv_sir",
+    "status": "ok",
+    "objective": -106.75679643943958
+  },
+  {
+    "file": "missing_time_varying_transmission__ude_sir_h2__seed000.json",
+    "study": "missing_time_varying_transmission",
+    "candidate": "ude_sir_h2",
+    "status": "ok",
+    "objective": -106.10943554321635
+  },
+  {
+    "file": "noisy_sir_overfit_risk__neural_ode_h2__seed000.json",
+    "study": "noisy_sir_overfit_risk",
+    "candidate": "neural_ode_h2",
+    "status": "ok",
+    "objective": -17.157797062976453
+  },
+  {
+    "file": "noisy_sir_overfit_risk__seir__seed000.json",
+    "study": "noisy_sir_overfit_risk",
+    "candidate": "seir",
+    "status": "ok",
+    "objective": -45.535859921793325
+  },
+  {
+    "file": "noisy_sir_overfit_risk__sir__seed000.json",
+    "study": "noisy_sir_overfit_risk",
+    "candidate": "sir",
+    "status": "ok",
+    "objective": -45.24298006563264
+  },
+  {
+    "file": "noisy_sir_overfit_risk__tv_sir__seed000.json",
+    "study": "noisy_sir_overfit_risk",
+    "candidate": "tv_sir",
+    "status": "ok",
+    "objective": -45.979813266476114
+  },
+  {
+    "file": "noisy_sir_overfit_risk__ude_sir_h2__seed000.json",
+    "study": "noisy_sir_overfit_risk",
+    "candidate": "ude_sir_h2",
+    "status": "ok",
+    "objective": -45.818648158430314
+  },
+  {
+    "file": "regular_sir_full__neural_ode_h2__seed000.json",
+    "study": "regular_sir_full",
+    "candidate": "neural_ode_h2",
+    "status": "ok",
+    "objective": 1012.4139339559638
+  },
+  {
+    "file": "regular_sir_full__seir__seed000.json",
+    "study": "regular_sir_full",
+    "candidate": "seir",
+    "status": "ok",
+    "objective": -57.97739568236381
+  },
+  {
+    "file": "regular_sir_full__sir__seed000.json",
+    "study": "regular_sir_full",
+    "candidate": "sir",
+    "status": "ok",
+    "objective": -276.12265551692144
+  },
+  {
+    "file": "regular_sir_full__tv_sir__seed000.json",
+    "study": "regular_sir_full",
+    "candidate": "tv_sir",
+    "status": "ok",
+    "objective": -246.08116703722558
+  },
+  {
+    "file": "regular_sir_full__ude_sir_h2__seed000.json",
+    "study": "regular_sir_full",
+    "candidate": "ude_sir_h2",
+    "status": "ok",
+    "objective": -268.4149187916766
+  },
+  {
+    "file": "biochemical_haldane__haldane__seed000.json",
+    "study": "biochemical_haldane",
+    "candidate": "haldane",
+    "status": "ok",
+    "objective": -82.86777601202029
+  },
+  {
+    "file": "biochemical_haldane__mm__seed000.json",
+    "study": "biochemical_haldane",
+    "candidate": "mm",
+    "status": "ok",
+    "objective": 79.77849745457698
+  },
+  {
+    "file": "biochemical_haldane__neural_rate__seed000.json",
+    "study": "biochemical_haldane",
+    "candidate": "neural_rate",
+    "status": "ok",
+    "objective": 185.5217591430147
+  },
+  {
+    "file": "biochemical_haldane__ude_mm__seed000.json",
+    "study": "biochemical_haldane",
+    "candidate": "ude_mm",
+    "status": "ok",
+    "objective": -78.50735257219895
+  },
+  {
+    "file": "ecology_rm__lv__seed000.json",
+    "study": "ecology_rm",
+    "candidate": "lv",
+    "status": "ok",
+    "objective": 1502.3459782971706
+  },
+  {
+    "file": "ecology_rm__neural_ode__seed000.json",
+    "study": "ecology_rm",
+    "candidate": "neural_ode",
+    "status": "ok",
+    "objective": 81.3712248365675
+  },
+  {
+    "file": "ecology_rm__rm__seed000.json",
+    "study": "ecology_rm",
+    "candidate": "rm",
+    "status": "ok",
+    "objective": -140.7197198802119
+  },
+  {
+    "file": "ecology_rm__ude_lv__seed000.json",
+    "study": "ecology_rm",
+    "candidate": "ude_lv",
+    "status": "ok",
+    "objective": 180.70590182745067
+  },
+  {
+    "file": "fhn_standard__fhn__seed000.json",
+    "study": "fhn_standard",
+    "candidate": "fhn",
+    "status": "ok",
+    "objective": -216.92901803306378
+  },
+  {
+    "file": "fhn_standard__neural_ode__seed000.json",
+    "study": "fhn_standard",
+    "candidate": "neural_ode",
+    "status": "ok",
+    "objective": 10913.230546268569
+  },
+  {
+    "file": "fhn_standard__tv_fhn__seed000.json",
+    "study": "fhn_standard",
+    "candidate": "tv_fhn",
+    "status": "ok",
+    "objective": -212.10714024833192
+  },
+  {
+    "file": "fhn_standard__ude_fhn__seed000.json",
+    "study": "fhn_standard",
+    "candidate": "ude_fhn",
+    "status": "ok",
+    "objective": -192.50050902408418
+  }
+]

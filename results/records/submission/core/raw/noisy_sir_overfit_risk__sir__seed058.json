@@ -1,0 +1,104 @@
+{
+  "schema_version": "2.0",
+  "protocol_hash": "1207b0df136105e3",
+  "status": "ok",
+  "scenario": "noisy_sir_overfit_risk",
+  "truth": "sir",
+  "candidate": "sir",
+  "seed": 58,
+  "observation": "infected",
+  "noise": 0.05,
+  "n_observations": 29,
+  "dimension": 2,
+  "theta": [
+    0.2687956491848148,
+    -0.9984723836875613
+  ],
+  "objective": -46.06469894941217,
+  "deviance": -92.20165133345662,
+  "forecast_mse": 1.941051545877499e-05,
+  "gradient_norm": 3.8345748973722804e-05,
+  "best_start": 4,
+  "start_diagnostics": [
+    {
+      "start": 0,
+      "objective": -46.064698949240295,
+      "deviance": -92.20165105577121,
+      "gradient_norm": 0.0005227178873778989,
+      "iterations": 185,
+      "finite": true,
+      "wall_seconds": 4.13673480000034
+    },
+    {
+      "start": 1,
+      "objective": -46.064698948228006,
+      "deviance": -92.20165159784862,
+      "gradient_norm": 0.0010644243569740183,
+      "iterations": 184,
+      "finite": true,
+      "wall_seconds": 4.229187299999467
+    },
+    {
+      "start": 2,
+      "objective": -46.064698949231456,
+      "deviance": -92.201651507239,
+      "gradient_norm": 0.0005972583638722763,
+      "iterations": 185,
+      "finite": true,
+      "wall_seconds": 4.1507694000010815
+    },
+    {
+      "start": 3,
+      "objective": -46.06469894900545,
+      "deviance": -92.20165097390955,
+      "gradient_norm": 0.0006738057251928241,
+      "iterations": 186,
+      "finite": true,
+      "wall_seconds": 4.1826111000009405
+    },
+    {
+      "start": 4,
+      "objective": -46.06469894928364,
+      "deviance": -92.20165129084482,
+      "gradient_norm": 0.0003602440903549939,
+      "iterations": 186,
+      "finite": true,
+      "wall_seconds": 4.260895299999902
+    },
+    {
+      "stage": "refinement",
+      "start": 4,
+      "objective": -46.06469894941217,
+      "deviance": -92.20165133345662,
+      "gradient_norm": 3.8345748973722804e-05,
+      "iterations": 7,
+      "finite": true,
+      "wall_seconds": 0.1889062999998714
+    }
+  ],
+  "wall_seconds": 21.1491477999989,
+  "second_best_objective_gap": 4.334310688136611e-11,
+  "jacobian_rank": 2,
+  "information": [
+    [
+      1123.571924713682,
+      -231.01938971984646
+    ],
+    [
+      -231.01938971984646,
+      518.7843727793995
+    ]
+  ],
+  "aic": -88.20165133345662,
+  "aicc": -87.74011287191816,
+  "bic": -85.46705967348367,
+  "gic_eff": -85.47748399470689,
+  "gic_vol_025": -82.18177701975254,
+  "gic_vol_050": -78.88607004479822,
+  "gic_vol_100": -72.29465609488953,
+  "ogic_p": -88.20784284245941,
+  "ogic_e": -78.94656999900698,
+  "d_obs": 1.9969042454986048,
+  "c_obs": 13.18282789981735,
+  "prior_energy": 0.07225343463228406
+}
