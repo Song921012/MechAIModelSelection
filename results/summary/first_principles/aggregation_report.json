@@ -1,0 +1,44 @@
+{
+  "core": {
+    "raw_records": 2200,
+    "eligible_records": 2000,
+    "failed_or_excluded": 200,
+    "duplicate_keys": 0,
+    "nonfinite": {
+      "aic": 0,
+      "aicc": 0,
+      "bic": 0,
+      "gic_pred": 0,
+      "gic_evid": 0,
+      "gic_eff_logn": 0
+    }
+  },
+  "phase_diagram": {
+    "raw_records": 2160,
+    "eligible_records": 2160,
+    "failed_or_excluded": 0,
+    "duplicate_keys": 0,
+    "nonfinite": {
+      "aic": 0,
+      "aicc": 120,
+      "bic": 0,
+      "gic_pred": 0,
+      "gic_evid": 0,
+      "gic_eff_logn": 0
+    }
+  },
+  "biological_systems": {
+    "raw_records": 600,
+    "eligible_records": 600,
+    "failed_or_excluded": 0,
+    "duplicate_keys": 0,
+    "nonfinite": {
+      "aic": 0,
+      "aicc": 0,
+      "bic": 0,
+      "gic_pred": 0,
+      "gic_evid": 0,
+      "gic_eff_logn": 0
+    }
+  }
+}

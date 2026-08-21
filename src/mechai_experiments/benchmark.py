@@ -1,4 +1,4 @@
-"""Formal, resumable PyTorch benchmark for observable-geometry selection."""
+"""Formal, resumable PyTorch benchmark for geometric selection."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Cross-domain biochemical and electrophysiological benchmarks."""
+"""Biochemical, ecological, and electrophysiological model comparisons."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from mechai_experiments.records import finite_or_none, load_compatible, objectiv
 from mechai_experiments.models.electrophysiology import CANDIDATES as FHN_CANDIDATES, TRUE_PARAMETERS as FHN_TRUE
 from mechai_experiments.models.ecology import ECOLOGY_CANDIDATES, TRUE_RM
 from mechai_experiments.fitting import fit_map, information_matrix
-from mechai_model_selection import ObservableGeometry, resolution_profile
+from mechai_model_selection import PullbackGeometry, resolution_profile
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -98,7 +98,7 @@ def run_cell(study: str, candidate_key: str, seed: int, protocol: DomainProtocol
             candidate, fit.theta, times, protocol.observation, protocol.noise
         )
         scores = primary_scores(candidate, fit, information, noisy.numel())
-        geometry = ObservableGeometry.from_matrices(
+        geometry = PullbackGeometry.from_matrices(
             information, candidate.prior_precision, resolution=1.0
         )
         profile = resolution_profile(geometry.eigenvalues, RESOLUTIONS)

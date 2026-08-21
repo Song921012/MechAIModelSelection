@@ -8,15 +8,16 @@ except ModuleNotFoundError:  # Python 3.10
     import tomli as tomllib
 
 ROOT=Path(__file__).resolve().parents[2]
-SCRIPTS={"core":"core.py","phase":"phase.py","cross-domain":"cross_domain.py","predictive":"predictive.py","confidence":"confidence.py","waic":"waic.py","reference":"reference.py","scalability":"scalability.py","intervention":"intervention.py","capacity":"capacity.py","metric-boundary":"metric_boundary.py","glucose":"glucose.py"}
-ORDER=list(SCRIPTS)
+SCRIPTS={"core":"core.py","phase":"phase.py","biological-systems":"cross_domain.py","cross-domain":"cross_domain.py","predictive":"predictive.py","confidence":"confidence.py","waic":"waic.py","reference":"reference.py","scalability":"scalability.py","intervention":"intervention.py","capacity":"capacity.py","metric-boundary":"metric_boundary.py","glucose":"glucose.py"}
+ORDER=[key for key in SCRIPTS if key != "cross-domain"]
 
 def load_profile(name:str)->dict:
     with (ROOT/"configs"/f"{name}.toml").open("rb") as handle: return tomllib.load(handle)
 def command(study:str,profile:str,workers:int,resume:bool,cfg:dict)->list[str]:
     cmd=[sys.executable,str(ROOT/"experiments"/SCRIPTS[study])]; underlying=profile
-    if study in {"core","phase","cross-domain","predictive"}:
-        cmd += ["--profile",underlying,"--workers",str(workers),"--seeds",str(cfg["seeds"][study])]
+    if study in {"core","phase","biological-systems","cross-domain","predictive"}:
+        seed_key = "cross-domain" if study == "biological-systems" else study
+        cmd += ["--profile",underlying,"--workers",str(workers),"--seeds",str(cfg["seeds"][seed_key])]
         cmd += ["--resume" if resume else "--overwrite"]
     elif study=="waic":
         cmd += ["--draws",str(cfg["waic"]["draws"]),"--seeds",str(cfg["seeds"]["waic"]),"--workers",str(workers),"--resume" if resume else "--overwrite"]

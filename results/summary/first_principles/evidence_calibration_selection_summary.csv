@@ -1,0 +1,10 @@
+scenario,criterion,recovery_rate,n
+early_seir_infected_only,bic,0.05,20
+early_seir_infected_only,gic_evid,0.85,20
+early_seir_infected_only,minus2_log_evidence_is,0.65,20
+missing_time_varying_transmission,bic,1.0,20
+missing_time_varying_transmission,gic_evid,1.0,20
+missing_time_varying_transmission,minus2_log_evidence_is,1.0,20
+regular_sir_full,bic,0.95,20
+regular_sir_full,gic_evid,1.0,20
+regular_sir_full,minus2_log_evidence_is,1.0,20

@@ -112,7 +112,7 @@ def audit(profile: str) -> dict:
                 ("n_times", "noise", "trajectories", "seed", "criterion"), 2700
             ),
             "crossdomain_selections.csv": (("study", "seed", "criterion"), 900),
-            "predictive_model_averaging.csv": (("scenario", "seed", "method"), 560),
+            "predictive_model_averaging.csv": (("scenario", "seed", "method"), 480),
             "reference_sensitivity_summary.csv":
                 (("scenario", "rho_nn", "resolution", "gamma"), 900),
         }

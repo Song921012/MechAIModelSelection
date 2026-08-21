@@ -11,14 +11,14 @@ PACKAGE_SRC = Path(__file__).resolve().parents[1] / "package" / "python" / "src"
 sys.path.insert(0, str(PACKAGE_SRC))
 
 from mechai_model_selection import (  # noqa: E402
-    ObservableGeometry,
+    PullbackGeometry,
     aic,
     aicc,
     bic,
     gic_effective,
     gic_volume,
-    ogic_evidence,
-    ogic_predictive,
+    gic_evidence,
+    gic_predictive,
     resolution_profile,
     waic,
 )
@@ -35,7 +35,7 @@ def score_fit(
     n_observations: int,
     resolutions: torch.Tensor,
 ) -> tuple[dict[str, float], dict[str, torch.Tensor]]:
-    geometry = ObservableGeometry.from_matrices(information, candidate.prior_precision, resolution=1.0)
+    geometry = PullbackGeometry.from_matrices(information, candidate.prior_precision, resolution=1.0)
     posterior = waic(pointwise_loglik_draws)
     energy = float(prior_energy(candidate, fit.theta))
     scores = {
@@ -44,11 +44,14 @@ def score_fit(
         "bic": bic(fit.log_likelihood, candidate.dimension, n_observations),
         "waic_laplace": posterior["waic"],
         "p_waic": posterior["p_waic"],
-        "ogic_p": ogic_predictive(fit.deviance, geometry),
-        "ogic_e": ogic_evidence(fit.deviance, geometry, prior_energy=energy),
-        "gic_eff": gic_effective(
+        "gic_pred": gic_predictive(fit.deviance, geometry),
+        "ogic_p": gic_predictive(fit.deviance, geometry),
+        "gic_evid": gic_evidence(fit.deviance, geometry, prior_energy=energy),
+        "ogic_e": gic_evidence(fit.deviance, geometry, prior_energy=energy),
+        "gic_eff_logn": gic_effective(
             fit.deviance, geometry, penalty_factor=math.log(n_observations),
         ),
+        "gic_eff": gic_effective(fit.deviance, geometry, penalty_factor=math.log(n_observations)),
         "gic_vol_025": gic_volume(
             fit.deviance, geometry, penalty_factor=math.log(n_observations), volume_weight=0.25,
         ),
@@ -58,7 +61,9 @@ def score_fit(
         "gic_vol_100": gic_volume(
             fit.deviance, geometry, penalty_factor=math.log(n_observations), volume_weight=1.00,
         ),
+        "effective_dimension": geometry.effective_dimension,
         "d_obs": geometry.effective_dimension,
+        "relative_log_volume": geometry.relative_log_volume,
         "c_obs": geometry.complexity,
         "prior_energy": energy,
     }

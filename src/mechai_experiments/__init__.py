@@ -1,1 +1,1 @@
-"""Reproducible experiments for observable-geometry model selection."""
+"""Reproducible experiments for geometric model selection."""

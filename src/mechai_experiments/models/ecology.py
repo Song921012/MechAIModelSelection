@@ -1,4 +1,4 @@
-"""Ecological candidate family for cross-domain model-selection transfer."""
+"""Ecological candidate family for geometric model selection."""
 
 from __future__ import annotations
 

@@ -134,7 +134,7 @@ def aggregate(profile: str, max_seeds: int | None = None) -> None:
     predictive_raw = ROOT / "results" / "records" / "submission" / "predictive" / "raw"
     output = ROOT / "results" / "summary" / "numerical"
     rows = []
-    methods = ("equal", "aic", "bic", "gic_eff", "gic_vol_050", "stacking", "hard_gic")
+    methods = ("equal", "aic", "bic", "gic_evid", "stacking", "hard_gic_pred")
     scenario_lookup = {item.name: item for item in SCENARIOS}
     seeds = max_seeds if max_seeds is not None else (50 if profile == "submission" else 1)
     for scenario_name in SCENARIO_NAMES:
@@ -168,14 +168,19 @@ def aggregate(profile: str, max_seeds: int | None = None) -> None:
                 ], dtype=torch.float64))
             mean_tensor, variance_tensor = torch.stack(means), torch.stack(variances)
             weight_map = {"equal": torch.full((len(CANDIDATE_KEYS),), 1.0 / len(CANDIDATE_KEYS))}
-            for criterion in ("aic", "bic", "gic_eff", "gic_vol_050"):
+            for criterion in ("aic", "bic"):
                 weight_map[criterion] = criterion_weights(
                     torch.tensor(score_group[criterion].to_numpy(dtype=float))
                 )
+            evid_column = "gic_evid" if "gic_evid" in score_group else "ogic_e"
+            pred_column = "gic_pred" if "gic_pred" in score_group else "ogic_p"
+            weight_map["gic_evid"] = criterion_weights(
+                torch.tensor(score_group[evid_column].to_numpy(dtype=float))
+            )
             weight_map["stacking"] = stacking_weights(torch.stack(lpd))
             hard = torch.zeros(len(CANDIDATE_KEYS), dtype=torch.float64)
-            hard[int(torch.argmin(torch.tensor(score_group["gic_eff"].to_numpy(dtype=float))))] = 1.0
-            weight_map["hard_gic"] = hard
+            hard[int(torch.argmin(torch.tensor(score_group[pred_column].to_numpy(dtype=float))))] = 1.0
+            weight_map["hard_gic_pred"] = hard
             for method in methods:
                 averaged = model_average(mean_tensor, variance_tensor, weight_map[method], confidence=0.90)
                 target = truth[test_slice]
@@ -197,7 +202,7 @@ def aggregate(profile: str, max_seeds: int | None = None) -> None:
     summary_rows = []
     for scenario_index, scenario_name in enumerate(SCENARIO_NAMES):
         scenario_frame = frame[frame["scenario"] == scenario_name]
-        hard = scenario_frame[scenario_frame["method"] == "hard_gic"].set_index("seed")["mse"]
+        hard = scenario_frame[scenario_frame["method"] == "hard_gic_pred"].set_index("seed")["mse"]
         for method_index, method in enumerate(methods):
             group = scenario_frame[scenario_frame["method"] == method].sort_values("seed")
             paired_hard = hard.loc[group["seed"]].to_numpy()

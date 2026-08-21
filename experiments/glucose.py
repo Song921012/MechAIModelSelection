@@ -20,7 +20,7 @@ import torch
 
 ROOT = Path(__file__).resolve().parents[1]
 
-from mechai_model_selection import ObservableGeometry, criterion_weights, generalized_spectrum
+from mechai_model_selection import PullbackGeometry, criterion_weights, generalized_spectrum
 
 
 torch.set_default_dtype(torch.float64)
@@ -170,7 +170,7 @@ def _fit(key, seed, observed, glucose_times, glucose_std, insulin_times, insulin
     ).reshape(train_count, len(theta))
     information = jacobian.mT @ jacobian
     eigenvalues = generalized_spectrum(information, precision)
-    geometry = ObservableGeometry(eigenvalues, resolution=1.0)
+    geometry = PullbackGeometry(eigenvalues, resolution=1.0)
     deviance = objective + float(torch.sum(torch.log(2.0 * math.pi * glucose_std[:train_count] ** 2)))
     n = train_count
     scores = {
@@ -291,7 +291,7 @@ def main():
     )
     weight_summary.plot.bar(ax=axes[1], rot=20)
     axes[1].set_ylabel("Mean support weight")
-    axes[1].legend(["BIC", "GIC-eff"], frameon=False)
+    axes[1].legend(["BIC", "geometric BIC approximation"], frameon=False)
     figure.tight_layout()
     figure.savefig(ROOT / "figures" / "glucose_case.pdf", bbox_inches="tight")
     plt.close(figure)

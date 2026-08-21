@@ -1,0 +1,9 @@
+truth,loss,metric,amplitude_information,location_information,cross_information,minimum_eigenvalue,maximum_eigenvalue
+amplitude_change,fisher_trajectory,fisher_trajectory,25654.647279071367,890786.2988148996,3.682015005365387e-05,25654.647279071367,890786.2988148996
+amplitude_change,fisher_trajectory,wasserstein_quantile,0.0,1138888.8888888883,0.0,0.0,1138888.8888888883
+amplitude_change,wasserstein_quantile,fisher_trajectory,14179.630779281748,492348.25496059377,5.244721167490434e-05,14179.630779281748,492348.25496059377
+amplitude_change,wasserstein_quantile,wasserstein_quantile,0.0,1138888.8888888883,0.0,0.0,1138888.8888888883
+time_shift,fisher_trajectory,fisher_trajectory,14566.080462506134,505741.06478761515,-0.9473448718316575,14566.080460678959,505741.06478944235
+time_shift,fisher_trajectory,wasserstein_quantile,0.0,1138888.8888888883,0.0,0.0,1138888.8888888883
+time_shift,wasserstein_quantile,fisher_trajectory,14179.602344482526,492325.3134595185,-0.8081237241963033,14179.602343116701,492325.31346088427
+time_shift,wasserstein_quantile,wasserstein_quantile,0.0,1138888.8888888883,0.0,0.0,1138888.8888888883
