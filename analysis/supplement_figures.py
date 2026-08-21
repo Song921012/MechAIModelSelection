@@ -1,6 +1,7 @@
 """Build final JUQ composite figures from archived summaries only."""
 from __future__ import annotations
 import math
+import os
 from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
@@ -9,13 +10,13 @@ from matplotlib.colors import LinearSegmentedColormap
 import numpy as np
 import pandas as pd
 
-ROOT=Path(__file__).resolve().parents[1]; TABLES=ROOT/"results"/"summary"; V2=TABLES/"numerical"; FP=TABLES/"first_principles"; OUT=ROOT/"figures"/"submission"; OUT.mkdir(parents=True,exist_ok=True)
+ROOT=Path(__file__).resolve().parents[1]; TABLES=ROOT/"results"/"summary"; V2=TABLES/"numerical"; FP=TABLES/"first_principles"; OUT=ROOT/"figures"/"submission"; OUT.mkdir(parents=True,exist_ok=True); TIFF_OUT=os.environ.get("MECHAI_TIFF_OUT")
 MM=1/25.4; WIDTH=183/25.4  # 183 mm, JUQ double-column width
 INK="#252A34"; GRAY="#7A8088"; LIGHT="#D9DEE5"; BLUE="#275D8C"; BLUE2="#5B8DB8"; TEAL="#2F8F92"; PURPLE="#755C91"; RED="#B5514F"
 CMAP=LinearSegmentedColormap.from_list("effective_blue",["#F5F7FA","#BCD3E5",BLUE])
-plt.rcParams.update({"font.family":"sans-serif","font.sans-serif":["Arial","Helvetica","DejaVu Sans"],"font.size":6.2,"axes.titlesize":6.6,"axes.labelsize":6.2,"xtick.labelsize":5.6,"ytick.labelsize":5.6,"legend.fontsize":5.5,"axes.linewidth":.65,"axes.spines.top":False,"axes.spines.right":False,"legend.frameon":False,"svg.fonttype":"none","pdf.fonttype":42,"savefig.facecolor":"white"})
+plt.rcParams.update({"font.family":"sans-serif","font.sans-serif":["Arial","Helvetica","DejaVu Sans"],"font.size":6.4,"axes.titlesize":6.9,"axes.labelsize":6.4,"xtick.labelsize":5.8,"ytick.labelsize":5.8,"legend.fontsize":5.8,"axes.linewidth":.65,"axes.spines.top":False,"axes.spines.right":False,"legend.frameon":False,"svg.fonttype":"none","pdf.fonttype":42,"savefig.facecolor":"white"})
 CRITERIA=["aic","aicc","bic","gic_pred","gic_evid","gic_eff_logn"]
-CLABEL={"aic":"AIC","aicc":"AICc","bic":"BIC","gic_pred":"GIC-pred","gic_evid":"GIC-evid","gic_eff_logn":"Geometric BIC","gic_eff":"Legacy geometric BIC","gic_vol_050":"Volume sensitivity","ogic_e":"GIC-evid","waic_laplace":"local WAIC"}
+CLABEL={"aic":"AIC","aicc":"AICc","bic":"BIC","gic_pred":"GIC-pred","gic_evid":"GIC-evid","gic_eff_logn":"Geometric BIC","gic_eff":"Legacy geometric BIC","gic_vol_050":"Volume sensitivity","ogic_e":"GIC-evid","waic_laplace":"Local WAIC"}
 CCOLOR=dict(zip(CRITERIA,[LIGHT,"#B3B7BD",GRAY,BLUE,TEAL,PURPLE]))
 SCENARIOS=["regular_sir_full","early_seir_infected_only","missing_time_varying_transmission","missing_neural_feedback","noisy_sir_overfit_risk"]
 SLABEL={"regular_sir_full":"SIR\nfull","early_seir_infected_only":"SEIR\nearly observed","missing_time_varying_transmission":"Time-varying\ntransmission","missing_neural_feedback":"Neural\nfeedback","noisy_sir_overfit_risk":"SIR\nnoisy"}
@@ -23,7 +24,7 @@ STUDIES=["biochemical_haldane","biochemical_ude","ecology_rm","fhn_standard","fh
 STLABEL={"biochemical_haldane":"Haldane","biochemical_ude":"Biochemical UDE","ecology_rm":"Predator-prey","fhn_standard":"FHN","fhn_ude":"FHN-UDE"}
 PMETHODS=["equal","aic","bic","gic_evid","stacking","hard_gic_pred"]
 PLABEL={"equal":"Equal","aic":"AIC","bic":"BIC","gic_evid":"GIC-evid","stacking":"Stacking","hard_gic_pred":"Hard GIC-pred"}
-PCOLOR=dict(zip(PMETHODS,[LIGHT,"#B3B7BD",GRAY,TEAL,PURPLE,BLUE2])); MODEL_COLORS={"sir":LIGHT,"tv_sir":GRAY,"ude_sir_h2":BLUE,"neural_ode_h2":TEAL}
+PCOLOR=dict(zip(PMETHODS,[LIGHT,"#B3B7BD",GRAY,TEAL,PURPLE,BLUE2])); MODEL_COLORS={"sir":LIGHT,"tv_sir":GRAY,"ude_sir_h2":BLUE,"neural_ode_h2":TEAL}; CANDIDATE_LABEL={"neural_ode_h2":"Neural ODE","seir":"SEIR","sir":"SIR","tv_sir":"Time-varying SIR","ude_sir_h2":"UDE-SIR","ude_appearance":"UDE appearance","minimal_gamma":"Minimal model, fitted","neural_ode":"Neural ODE","minimal_fixed":"Minimal model, fixed"}; DOMAIN_LABEL={"biochemical":"Biochemical","ecology":"Ecological","fhn":"Electrophysiological"}
 
 def read(path,*required):
     d=pd.read_csv(path); missing=sorted(set(required)-set(d.columns))
@@ -38,13 +39,16 @@ def heat(ax,matrix,vmin=0,vmax=1,annotate=False):
         for y in range(matrix.shape[0]):
             for x in range(matrix.shape[1]):
                 v=matrix.iloc[y,x]
-                if pd.notna(v): ax.text(x,y,f"{v:.2f}",ha="center",va="center",fontsize=5.2,color="white" if v>vmin+.62*(vmax-vmin) else INK)
+                if pd.notna(v): ax.text(x,y,f"{v:.2f}",ha="center",va="center",fontsize=5.5,color="white" if v>vmin+.62*(vmax-vmin) else INK)
     return im
 
 def export(fig,stem):
     fig.savefig(OUT/f"{stem}.pdf",bbox_inches="tight",pad_inches=.025)
     fig.savefig(OUT/f"{stem}.svg",bbox_inches="tight",pad_inches=.025)
     fig.savefig(OUT/f"{stem}.png",dpi=600,bbox_inches="tight",pad_inches=.025)
+    if TIFF_OUT:
+        target=Path(TIFF_OUT); target.mkdir(parents=True,exist_ok=True)
+        fig.savefig(target/f"{stem}.tiff",dpi=600,bbox_inches="tight",pad_inches=.025)
     plt.close(fig)
 def entropy(x):
     p=x.value_counts(normalize=True).to_numpy(); return 0. if len(p)<2 else float(-(p*np.log(p)).sum()/np.log(len(p)))
@@ -88,7 +92,7 @@ def supplement3():
 def supplement4():
     core=read(FP/"core_scores.csv"); cross=read(FP/"biological_systems_scores.csv"); fig,ax=plt.subplots(2,2,figsize=(7.2047,5.2)); specs=[(core,"candidate","gradient_norm","Core residuals"),(core,"candidate","wall_seconds","Core fit time"),(cross,"domain","gradient_norm","Biological-system residuals"),(cross,"domain","wall_seconds","Biological-system fit time")]
     for a,(frame,key,col,title) in zip(ax.flat,specs):
-        groups=sorted(frame[key].unique()); a.boxplot([frame.loc[frame[key]==g,col].clip(lower=1e-12) for g in groups],showfliers=False,patch_artist=True,boxprops={"facecolor":BLUE2},medianprops={"color":INK}); a.set_yscale("log"); a.set_xticks(range(1,len(groups)+1),[g.replace("_"," ") for g in groups],rotation=30,ha="right"); a.set(ylabel="Gradient norm" if "residual" in title.lower() else "Wall time (s)",title=title); clean(a)
+        groups=sorted(frame[key].unique()); a.boxplot([frame.loc[frame[key]==g,col].clip(lower=1e-12) for g in groups],showfliers=False,patch_artist=True,boxprops={"facecolor":BLUE2},medianprops={"color":INK}); a.set_yscale("log"); a.set_xticks(range(1,len(groups)+1),[CANDIDATE_LABEL.get(g,DOMAIN_LABEL.get(g,g.replace("_"," "))) for g in groups],rotation=30,ha="right"); a.set(ylabel="Gradient norm" if "residual" in title.lower() else "Wall time (s)",title=title); clean(a)
     for i,a in enumerate(ax.flat): panel(a,chr(97+i))
     fig.subplots_adjust(left=.1,right=.99,bottom=.14,top=.95,wspace=.4,hspace=.62); export(fig,"figS4_fit_diagnostics")
 
@@ -109,10 +113,10 @@ def supplement5():
     for i,a in enumerate(ax): panel(a,chr(97+i))
     fig.subplots_adjust(left=.08,right=.99,bottom=.16,top=.92,wspace=.48); export(fig,"figS5_geometry_checks")
 def supplement6():
-    intervention=read(TABLES/"intervention_selection_summary.csv"); metric=read(TABLES/"metric_boundary.csv"); glucose=read(TABLES/"glucose_case_summary.csv"); ecology=read(TABLES/"ecology_selection_summary.csv"); fig,ax=plt.subplots(2,2,figsize=(7.2047,5.2)); methods=[m for m in ["aic","aicc","bic","gic_eff","gic_vol_050","ogic_e"] if m in intervention.criterion.values]; d=intervention.set_index("criterion").reindex(methods); ax[0,0].bar(range(len(d)),d.recovery_rate,color=[LIGHT,"#B3B7BD",GRAY,BLUE,TEAL,PURPLE][:len(methods)]); ax[0,0].errorbar(range(len(d)),d.recovery_rate,yerr=[d.recovery_rate-d.recovery_ci_low,d.recovery_ci_high-d.recovery_rate],fmt="none",ecolor=INK,capsize=2); ax[0,0].set_xticks(range(len(d)),[{"aic":"AIC","aicc":"AICc","bic":"BIC","gic_eff":"Geom. BIC","gic_vol_050":"Vol. sensitivity","ogic_e":"GIC-evid"}[m] for m in methods],rotation=30,ha="right"); ax[0,0].set(ylim=(0,1.05),ylabel="Recovery rate",title="Multiple-initial-condition intervention"); clean(ax[0,0])
-    x=np.arange(2); ax[0,1].bar(x-.18,metric.amplitude_information,.36,color=BLUE,label="Amplitude"); ax[0,1].bar(x+.18,metric.shift_information,.36,color=PURPLE,label="Shift"); ax[0,1].set_yscale("symlog",linthresh=1e-3); ax[0,1].set_xticks(x,[z.split()[0] for z in metric.metric]); ax[0,1].set(ylabel="Pullback information",title="Fisher--Wasserstein boundary"); ax[0,1].legend(); clean(ax[0,1])
-    g=glucose.sort_values("blocked_mse"); ax[1,0].barh(range(len(g)),g.blocked_mse,xerr=g.blocked_mse_sd,color=[BLUE,TEAL,GRAY,LIGHT]); ax[1,0].set_yticks(range(len(g)),g.candidate.str.replace("_"," ")); ax[1,0].invert_yaxis(); ax[1,0].set(xlabel="Blocked prediction MSE",title="Glucose--insulin extrapolation"); clean(ax[1,0])
-    legacy=["aic","aicc","bic","gic_eff","gic_vol_050","ogic_e"]; e=ecology[ecology.criterion.isin(legacy)].set_index("criterion").reindex(legacy); e=e[e["recovery_rate"].notna()]; ax[1,1].bar(range(len(e)),e.recovery_rate,color=[LIGHT,"#B3B7BD",GRAY,BLUE,TEAL,PURPLE][:len(e)]); ax[1,1].set_xticks(range(len(e)),[{"aic":"AIC","aicc":"AICc","bic":"BIC","gic_eff":"Geom. BIC","gic_vol_050":"Vol. sensitivity","ogic_e":"GIC-evid"}[m] for m in e.index],rotation=30,ha="right"); ax[1,1].set(ylim=(0,1.05),ylabel="Recovery rate",title="Ecological model recovery"); clean(ax[1,1])
+    intervention=read(TABLES/"intervention_selection_summary.csv"); metric=read(TABLES/"metric_boundary.csv"); glucose=read(TABLES/"glucose_case_summary.csv"); ecology=read(TABLES/"ecology_selection_summary.csv"); fig,ax=plt.subplots(2,2,figsize=(7.2047,5.2)); methods=[m for m in ["aic","aicc","bic","gic_eff","gic_vol_050","ogic_e"] if m in intervention.criterion.values]; d=intervention.set_index("criterion").reindex(methods); ax[0,0].bar(range(len(d)),d.recovery_rate,color=[LIGHT,"#B3B7BD",GRAY,BLUE,TEAL,PURPLE][:len(methods)]); ax[0,0].errorbar(range(len(d)),d.recovery_rate,yerr=[d.recovery_rate-d.recovery_ci_low,d.recovery_ci_high-d.recovery_rate],fmt="none",ecolor=INK,capsize=2); ax[0,0].set_xticks(range(len(d)),[{"aic":"AIC","aicc":"AICc","bic":"BIC","gic_eff":"Geometric BIC","gic_vol_050":"Volume sensitivity","ogic_e":"GIC-evid"}[m] for m in methods],rotation=30,ha="right"); ax[0,0].set(ylim=(0,1.05),ylabel="Recovery rate",title="Independent initial conditions"); clean(ax[0,0])
+    x=np.arange(2); ax[0,1].bar(x-.18,metric.amplitude_information,.36,color=BLUE,label="Amplitude"); ax[0,1].bar(x+.18,metric.shift_information,.36,color=PURPLE,label="Shift"); ax[0,1].set_yscale("symlog",linthresh=1e-3); ax[0,1].set_xticks(x,[z.split()[0] for z in metric.metric]); ax[0,1].set(ylabel="Pullback information",title="Metric-dependent information"); ax[0,1].legend(); clean(ax[0,1])
+    g=glucose.sort_values("blocked_mse"); ax[1,0].barh(range(len(g)),g.blocked_mse,xerr=g.blocked_mse_sd,color=[BLUE,TEAL,GRAY,LIGHT]); ax[1,0].set_yticks(range(len(g)),[CANDIDATE_LABEL.get(z,z.replace("_"," ")) for z in g.candidate]); ax[1,0].invert_yaxis(); ax[1,0].set(xlabel="Blocked prediction MSE",title="Glucose--insulin extrapolation"); clean(ax[1,0])
+    legacy=["aic","aicc","bic","gic_eff","gic_vol_050","ogic_e"]; e=ecology[ecology.criterion.isin(legacy)].set_index("criterion").reindex(legacy); e=e[e["recovery_rate"].notna()]; ax[1,1].bar(range(len(e)),e.recovery_rate,color=[LIGHT,"#B3B7BD",GRAY,BLUE,TEAL,PURPLE][:len(e)]); ax[1,1].set_xticks(range(len(e)),[{"aic":"AIC","aicc":"AICc","bic":"BIC","gic_eff":"Geometric BIC","gic_vol_050":"Volume sensitivity","ogic_e":"GIC-evid"}[m] for m in e.index],rotation=30,ha="right"); ax[1,1].set(ylim=(0,1.05),ylabel="Recovery rate",title="Ecological model recovery"); clean(ax[1,1])
     for i,a in enumerate(ax.flat): panel(a,chr(97+i))
     fig.subplots_adjust(left=.11,right=.99,bottom=.15,top=.95,wspace=.52,hspace=.58); export(fig,"figS6_biological_boundaries")
 
@@ -133,15 +137,15 @@ def supplement7():
 
 def supplement8():
     waic=read(V2/"waic_local_gaussian.csv"); sel=read(V2/"waic_local_gaussian_selections.csv"); scale=read(V2/"scalability_summary.csv"); timing=read(V2/"scalability_timings.csv"); fig,ax=plt.subplots(2,3,figsize=(7.2047,5.1)); recovery=sel.groupby("scenario").correct.mean().reindex(SCENARIOS); failure=(waic.status.ne("ok")|waic.waic_laplace.isna()).groupby(waic.scenario).mean().reindex(SCENARIOS)
-    for a,values,title,color in [(ax[0,0],recovery,"Local-Gaussian WAIC recovery",BLUE),(ax[0,1],failure,"Nonfinite WAIC fraction",RED)]: a.barh(range(5),values,color=color); a.set_yticks(range(5),[SLABEL[z].replace("\n"," ") for z in SCENARIOS]); a.invert_yaxis(); a.set(xlim=(0,1),title=title); clean(a)
+    for a,values,title,color in [(ax[0,0],recovery,"Local-Gaussian WAIC recovery",BLUE),(ax[0,1],failure,"Nonfinite WAIC fraction",RED)]: a.barh(range(5),values,color=color); a.set_yticks(range(5),["SIR, full", "Early SEIR", "Time-varying", "Neural feedback", "SIR, noisy"]); a.invert_yaxis(); a.set(xlim=(0,1),title=title); clean(a)
     ax[0,2].plot(scale.dimension,scale.tensor_megabytes,marker="o",color=PURPLE); ax[0,2].set_yscale("log"); ax[0,2].set(xlabel="Parameter dimension",ylabel="Tensor memory (MB)",title="Memory scaling"); clean(ax[0,2])
     med=timing.groupby("dimension")[["jacobian_seconds","gram_seconds","spectrum_seconds"]].median()
     for col,color,label in [("jacobian_seconds",BLUE,"Jacobian"),("gram_seconds",TEAL,"Gram"),("spectrum_seconds",PURPLE,"Spectrum")]: ax[1,0].plot(med.index,med[col],marker="o",color=color,label=label)
     ax[1,0].set_yscale("log"); ax[1,0].set(xlabel="Parameter dimension",ylabel="Time (s)",title="Geometry computation"); ax[1,0].legend(); clean(ax[1,0])
     ax[1,1].plot(scale.dimension,scale.jacobian_median,marker="o",color=BLUE,label="Jacobian"); ax[1,1].plot(scale.dimension,scale.spectrum_median,marker="s",color=PURPLE,label="Spectrum"); ax[1,1].set_yscale("log"); ax[1,1].set(xlabel="Parameter dimension",ylabel="Median time (s)",title="Component scaling"); ax[1,1].legend(); clean(ax[1,1])
-    counts=waic.groupby("scenario").size().reindex(SCENARIOS); ax[1,2].bar(range(5),counts,color=GRAY); ax[1,2].set_xticks(range(5),[SLABEL[z] for z in SCENARIOS],rotation=30,ha="right"); ax[1,2].set(ylabel="Attempted fits",title="WAIC numerical sample"); clean(ax[1,2])
+    counts=waic.groupby("scenario").size().reindex(SCENARIOS); ax[1,2].bar(range(5),counts,color=GRAY); ax[1,2].set_xticks(range(5),[SLABEL[z].replace("\n"," ") for z in SCENARIOS],rotation=38,ha="right"); ax[1,2].set(ylabel="Attempted fits",title="WAIC numerical sample"); clean(ax[1,2])
     for i,a in enumerate(ax.flat): panel(a,chr(97+i))
-    fig.subplots_adjust(left=.11,right=.99,bottom=.14,top=.95,wspace=.52,hspace=.58); export(fig,"figS8_computation_waic")
+    fig.subplots_adjust(left=.11,right=.99,bottom=.17,top=.95,wspace=.52,hspace=.58); export(fig,"figS8_computation_waic")
 
 def main():
     supplement1(); supplement2(); supplement3(); supplement4(); supplement5(); supplement6(); supplement7(); supplement8()

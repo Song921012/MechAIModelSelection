@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "mechai-paper-experiments"
-version = "1.0.0"
+version = "1.0.1"
 description = "Reproduction code and records for observable-geometry model selection"
 readme = "README.md"
 requires-python = ">=3.10"

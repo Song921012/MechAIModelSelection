@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 - 2026-08-21
+
+- Increased final-size label and legend readability without changing numerical values.
+- Replaced internal candidate and domain keys with publication-facing labels.
+- Removed overlapping annotations in the main and supplementary composite figures.
+
 ## 1.0.0 - 2026-08-21
 
 - Added canonical first-principles aggregation for GIC-pred, GIC-evid, the

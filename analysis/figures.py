@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import os
 from pathlib import Path
 
 import matplotlib
@@ -20,8 +21,10 @@ NUM = REPO / "results" / "summary" / "numerical"
 TABLES = ROOT / "results" / "summary"
 OUT = ROOT / "figures" / "submission"
 OUT.mkdir(parents=True, exist_ok=True)
+TIFF_OUT = os.environ.get("MECHAI_TIFF_OUT")
 
-WIDTH = 183 / 25.4
+MM = 1 / 25.4
+WIDTH = 183 / 25.4  # 183 mm, JUQ full-text width
 INK = "#252A34"
 GRAY = "#7A8088"
 LIGHT = "#D9DEE5"
@@ -37,12 +40,12 @@ CMAP = LinearSegmentedColormap.from_list(
 plt.rcParams.update({
     "font.family": "sans-serif",
     "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
-    "font.size": 6.4,
-    "axes.titlesize": 7.0,
-    "axes.labelsize": 6.4,
-    "xtick.labelsize": 5.8,
-    "ytick.labelsize": 5.8,
-    "legend.fontsize": 5.7,
+    "font.size": 6.6,
+    "axes.titlesize": 7.1,
+    "axes.labelsize": 6.6,
+    "xtick.labelsize": 6.0,
+    "ytick.labelsize": 6.0,
+    "legend.fontsize": 5.9,
     "axes.linewidth": 0.7,
     "axes.spines.top": False,
     "axes.spines.right": False,
@@ -58,7 +61,7 @@ CLABEL = {
     "aicc": "AICc",
     "bic": "BIC",
     "gic_pred": "GIC-pred",
-    "gic_eff_logn": "Geom. BIC",
+    "gic_eff_logn": "Geometric BIC",
     "gic_evid": "GIC-evid",
 }
 CCOLOR = {
@@ -120,6 +123,13 @@ MODEL_COLORS = {
     "ude_sir_h2": BLUE,
     "neural_ode_h2": TEAL,
 }
+MODEL_LABEL = {
+    "sir": "SIR",
+    "seir": "SEIR",
+    "tv_sir": "Time-varying SIR",
+    "ude_sir_h2": "UDE-SIR",
+    "neural_ode_h2": "Neural ODE",
+}
 
 
 def read(path: Path, *required: str) -> pd.DataFrame:
@@ -154,7 +164,7 @@ def heat(ax, matrix: pd.DataFrame, *, vmin=0.0, vmax=1.0, annotate=True):
                     color = "white" if value > vmin + 0.62 * (vmax - vmin) else INK
                     ax.text(
                         column, row, f"{value:.2f}",
-                        ha="center", va="center", fontsize=5.3, color=color,
+                        ha="center", va="center", fontsize=5.5, color=color,
                     )
     return image
 
@@ -163,6 +173,10 @@ def export(fig, stem: str) -> None:
     fig.savefig(OUT / f"{stem}.pdf", bbox_inches="tight", pad_inches=0.025)
     fig.savefig(OUT / f"{stem}.svg", bbox_inches="tight", pad_inches=0.025)
     fig.savefig(OUT / f"{stem}.png", dpi=600, bbox_inches="tight", pad_inches=0.025)
+    if TIFF_OUT:
+        target = Path(TIFF_OUT)
+        target.mkdir(parents=True, exist_ok=True)
+        fig.savefig(target / f"{stem}.tiff", dpi=600, bbox_inches="tight", pad_inches=0.025)
     plt.close(fig)
 
 
@@ -174,7 +188,8 @@ def selection_entropy(values: pd.Series) -> float:
 
 
 def runner_up_margin(group: pd.DataFrame, score: str) -> float:
-    values = np.sort(pd.to_numeric(group[score], errors="coerce").dropna())
+    numeric = pd.to_numeric(group[score], errors="coerce")
+    values = np.sort(numeric[numeric.notna()])
     return float(values[1] - values[0]) if len(values) > 1 else math.nan
 
 
@@ -220,15 +235,22 @@ def figure1() -> None:
         .agg(formal=("dimension", "first"), effective=("effective_dimension", "mean"))
         .sort_values("formal")
     )
-    x = np.arange(len(dimensions))
-    ax_dimension.scatter(dimensions["formal"], dimensions["effective"], color=BLUE, s=22)
+    candidate_style = {
+        "sir": (GRAY, "o"),
+        "seir": (BLUE2, "s"),
+        "tv_sir": (TEAL, "D"),
+        "ude_sir_h2": (PURPLE, "^"),
+        "neural_ode_h2": (GOLD, "P"),
+    }
+    for name, row in dimensions.iterrows():
+        color, marker = candidate_style[name]
+        ax_dimension.scatter(
+            row["formal"], row["effective"], color=color, marker=marker,
+            s=22, label=MODEL_LABEL[name], zorder=3,
+        )
     limit = float(max(dimensions["formal"].max(), dimensions["effective"].max()))
     ax_dimension.plot([0, limit], [0, limit], "--", color=GRAY, linewidth=0.7)
-    for name, row in dimensions.iterrows():
-        ax_dimension.annotate(
-            name.replace("_", " "), (row["formal"], row["effective"]),
-            xytext=(3, 2), textcoords="offset points", fontsize=5.0,
-        )
+    ax_dimension.legend(loc="upper left", handletextpad=0.35, labelspacing=0.25)
     ax_dimension.set_xlabel("Formal dimension")
     ax_dimension.set_ylabel("Mean effective dimension")
     ax_dimension.set_title("Formal versus effective dimension")
@@ -242,7 +264,7 @@ def figure1() -> None:
         range(len(volumes)), volumes["median"], xerr=volumes["std"],
         color=TEAL, capsize=1.5,
     )
-    ax_volume.set_yticks(range(len(volumes)), [name.replace("_", " ") for name in volumes.index])
+    ax_volume.set_yticks(range(len(volumes)), [MODEL_LABEL.get(name, name.replace("_", " ")) for name in volumes.index])
     ax_volume.set_xlabel("Relative log-volume")
     ax_volume.set_title("Local evidence complexity")
     clean(ax_volume)
@@ -401,7 +423,7 @@ def figure3() -> None:
     axes[1, 1].set_yscale("log")
     axes[1, 1].set_xlabel("Relative importance-sampling ESS")
     axes[1, 1].set_ylabel("Absolute local-evidence error")
-    axes[1, 1].set_title("Approximation degrades near weak modes")
+    axes[1, 1].set_title("Error near weak modes")
     clean(axes[1, 1])
 
     combinations = [
@@ -410,7 +432,7 @@ def figure3() -> None:
         ("time_shift", "fisher_trajectory"),
         ("time_shift", "wasserstein_quantile"),
     ]
-    labels = ["Amplitude\ntrajectory", "Amplitude\ntransport", "Shift\ntrajectory", "Shift\ntransport"]
+    labels = ["Amplitude / trajectory", "Amplitude / transport", "Shift / trajectory", "Shift / transport"]
     matched = []
     mismatched = []
     for truth, loss in combinations:
@@ -420,7 +442,7 @@ def figure3() -> None:
     x = np.arange(len(combinations))
     axes[1, 2].bar(x - 0.18, matched, 0.36, color=BLUE, label="Matched")
     axes[1, 2].bar(x + 0.18, mismatched, 0.36, color=LIGHT, edgecolor=GRAY, linewidth=0.5, label="Mismatched")
-    axes[1, 2].set_xticks(x, labels)
+    axes[1, 2].set_xticks(x, labels, rotation=38, ha="right", rotation_mode="anchor")
     axes[1, 2].set_ylabel("Absolute mean calibration bias")
     axes[1, 2].set_title("Metric and risk must match")
     axes[1, 2].legend()
@@ -457,10 +479,10 @@ def figure4() -> None:
         .agg(formal=("dimension", "first"), effective=("effective_dimension", "mean"))
         .reset_index()
     )
-    styles = [("biochemical", BLUE, "o"), ("ecology", TEAL, "s"), ("fhn", PURPLE, "^")]
-    for domain, color, marker in styles:
+    styles = [("biochemical", "Biochemical", BLUE, "o"), ("ecology", "Ecological", TEAL, "s"), ("fhn", "Electrophysiological", PURPLE, "^")]
+    for domain, domain_label, color, marker in styles:
         subset = dimensions[dimensions["domain"] == domain]
-        axes[0, 1].scatter(subset["formal"], subset["effective"], color=color, marker=marker, s=24, label=domain)
+        axes[0, 1].scatter(subset["formal"], subset["effective"], color=color, marker=marker, s=24, label=domain_label)
     limit = max(dimensions["formal"].max(), dimensions["effective"].max())
     axes[0, 1].plot([0, limit], [0, limit], "--", color=GRAY, linewidth=0.7)
     axes[0, 1].set_xlabel("Formal dimension")
@@ -476,7 +498,7 @@ def figure4() -> None:
         .agg(fit=("fit_gap", "mean"), penalty=("effective_dimension", lambda values: 2.0 * values.mean()))
         .reset_index()
     )
-    for domain, color, marker in styles:
+    for domain, domain_label, color, marker in styles:
         subset = decomposition[decomposition["domain"] == domain]
         axes[0, 2].scatter(subset["fit"], subset["penalty"], color=color, marker=marker, s=22)
     axes[0, 2].set_xlabel("Mean deviance gap")
@@ -513,7 +535,7 @@ def figure4() -> None:
         for patch, color in zip(boxes["boxes"], [BLUE, TEAL, PURPLE]):
             patch.set_facecolor(color)
         axis.set_yscale("log")
-        axis.set_xticks(range(1, 4), groups, rotation=24, ha="right")
+        axis.set_xticks(range(1, 4), ["Biochemical", "Ecological", "Electrophysiological"], rotation=22, ha="right")
         axis.set_ylabel(ylabel)
         axis.set_title(title)
         clean(axis)
@@ -647,7 +669,7 @@ def figure5() -> None:
         values = focus[column].to_numpy()
         axes[1, 2].barh(
             range(len(order)), values, left=left,
-            color=MODEL_COLORS[model], label=model.replace("_", " "),
+            color=MODEL_COLORS[model], label=MODEL_LABEL.get(model, model.replace("_", " ")),
         )
         left += values
     axes[1, 2].set_yticks(
