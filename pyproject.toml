@@ -3,16 +3,16 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "mechai-paper-experiments"
-version = "1.0.1"
-description = "Reproduction code and records for observable-geometry model selection"
+version = "1.0.2"
+description = "Reproduction code and records for geometric model selection in mechanism-AI dynamical systems"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
-authors = [{name="Pengfei Song"},{name="Yin Song"}]
+authors = [{name="Shuangshuang Yin"},{name="Pengfei Song"}]
 dependencies = [
   "numpy>=1.24", "pandas>=2", "scipy>=1.10", "matplotlib>=3.8", "torch>=2.1",
   "tomli>=2; python_version<'3.11'",
-  "mechai-model-selection @ git+https://github.com/Song921012/mechai-model-selection.git@v0.3.0",
+  "mechai-model-selection @ git+https://github.com/Song921012/mechai-model-selection.git@v0.3.1",
 ]
 [project.optional-dependencies]
 test = ["pytest>=7"]

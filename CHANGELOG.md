@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 - 2026-08-22
+
+- Update the package dependency to `mechai-model-selection` 0.3.1.
+- Remove an obsolete local source-path injection and correct author metadata.
+- Align public descriptions with the final manuscript terminology.
 ## 1.0.1 - 2026-08-21
 
 - Increased final-size label and legend readability without changing numerical values.
