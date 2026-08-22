@@ -19,7 +19,7 @@ CRITERIA=["aic","aicc","bic","gic_pred","gic_evid","gic_eff_logn"]
 CLABEL={"aic":"AIC","aicc":"AICc","bic":"BIC","gic_pred":"GIC-pred","gic_evid":"GIC-evid","gic_eff_logn":"Geometric BIC","gic_eff":"Legacy geometric BIC","gic_vol_050":"Volume sensitivity","ogic_e":"GIC-evid","waic_laplace":"Local WAIC"}
 CCOLOR=dict(zip(CRITERIA,[LIGHT,"#B3B7BD",GRAY,BLUE,TEAL,PURPLE]))
 SCENARIOS=["regular_sir_full","early_seir_infected_only","missing_time_varying_transmission","missing_neural_feedback","noisy_sir_overfit_risk"]
-SLABEL={"regular_sir_full":"SIR\nfull","early_seir_infected_only":"SEIR\nearly observed","missing_time_varying_transmission":"Time-varying\ntransmission","missing_neural_feedback":"Neural\nfeedback","noisy_sir_overfit_risk":"SIR\nnoisy"}
+SLABEL={"regular_sir_full":"SIR\nfull","early_seir_infected_only":"Early partial\nSEIR","missing_time_varying_transmission":"Time-varying\ntransmission","missing_neural_feedback":"Neural\nfeedback","noisy_sir_overfit_risk":"SIR\nnoisy"}
 STUDIES=["biochemical_haldane","biochemical_ude","ecology_rm","fhn_standard","fhn_ude"]
 STLABEL={"biochemical_haldane":"Haldane","biochemical_ude":"Biochemical UDE","ecology_rm":"Predator-prey","fhn_standard":"FHN","fhn_ude":"FHN-UDE"}
 PMETHODS=["equal","aic","bic","gic_evid","stacking","hard_gic_pred"]
@@ -44,7 +44,10 @@ def heat(ax,matrix,vmin=0,vmax=1,annotate=False):
 
 def export(fig,stem):
     fig.savefig(OUT/f"{stem}.pdf",bbox_inches="tight",pad_inches=.025)
-    fig.savefig(OUT/f"{stem}.svg",bbox_inches="tight",pad_inches=.025)
+    svg_path=OUT/f"{stem}.svg"
+    fig.savefig(svg_path,bbox_inches="tight",pad_inches=.025)
+    svg_text=svg_path.read_text(encoding="utf-8")
+    svg_path.write_text("\n".join(line.rstrip() for line in svg_text.splitlines())+"\n",encoding="utf-8")
     fig.savefig(OUT/f"{stem}.png",dpi=600,bbox_inches="tight",pad_inches=.025)
     if TIFF_OUT:
         target=Path(TIFF_OUT); target.mkdir(parents=True,exist_ok=True)
@@ -121,7 +124,7 @@ def supplement6():
     fig.subplots_adjust(left=.11,right=.99,bottom=.15,top=.95,wspace=.52,hspace=.58); export(fig,"figS6_biological_boundaries")
 
 def supplement7():
-    cov=read(TABLES/"confidence_coverage_summary.csv"); s=read(ROOT/"results"/"summary"/"numerical"/"predictive_model_averaging_summary.csv"); fig,ax=plt.subplots(2,3,figsize=(7.2047,5.6),gridspec_kw={"width_ratios":[1,1,1.18]}); styles=[("naive_wald",GRAY,"s","Raw Wald"),("geometric_quotient",BLUE,"o","Quotient"),("simulation_calibrated",TEAL,"^","Calibrated")]
+    cov=read(TABLES/"confidence_coverage_summary.csv"); s=read(ROOT/"results"/"summary"/"numerical"/"predictive_model_averaging_summary.csv"); fig,ax=plt.subplots(2,3,figsize=(7.2047,5.6),gridspec_kw={"width_ratios":[1,1,1.18]}); styles=[("naive_wald",GRAY,"s","Raw Wald"),("geometric_quotient",BLUE,"o","Geometric quotient"),("simulation_calibrated",TEAL,"^","Calibrated")]
     for c,scenario in enumerate(["regular_sir_full","early_seir_infected_only"]):
         for method,color,marker,label in styles:
             d=cov[(cov.scenario==scenario)&(cov.method==method)].sort_values("nominal"); ax[0,c].plot(d.nominal,d.coverage,color=color,marker=marker,ms=3,lw=1,label=label); finite=np.isfinite(d.mean_log_relative_width); ax[1,c].plot(d.nominal[finite],d.mean_log_relative_width[finite],color=color,marker=marker,ms=3,lw=1,label=label)

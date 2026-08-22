@@ -24,7 +24,8 @@ OUT.mkdir(parents=True, exist_ok=True)
 TIFF_OUT = os.environ.get("MECHAI_TIFF_OUT")
 
 MM = 1 / 25.4
-WIDTH = 183 / 25.4  # 183 mm, JUQ full-text width
+width_mm = 183  # JUQ full-text width
+WIDTH = 7.2047
 INK = "#252A34"
 GRAY = "#7A8088"
 LIGHT = "#D9DEE5"
@@ -171,7 +172,13 @@ def heat(ax, matrix: pd.DataFrame, *, vmin=0.0, vmax=1.0, annotate=True):
 
 def export(fig, stem: str) -> None:
     fig.savefig(OUT / f"{stem}.pdf", bbox_inches="tight", pad_inches=0.025)
-    fig.savefig(OUT / f"{stem}.svg", bbox_inches="tight", pad_inches=0.025)
+    svg_path = OUT / f"{stem}.svg"
+    fig.savefig(svg_path, bbox_inches="tight", pad_inches=0.025)
+    svg_text = svg_path.read_text(encoding="utf-8")
+    svg_path.write_text(
+        "\n".join(line.rstrip() for line in svg_text.splitlines()) + "\n",
+        encoding="utf-8",
+    )
     fig.savefig(OUT / f"{stem}.png", dpi=600, bbox_inches="tight", pad_inches=0.025)
     if TIFF_OUT:
         target = Path(TIFF_OUT)
@@ -250,7 +257,7 @@ def figure1() -> None:
         )
     limit = float(max(dimensions["formal"].max(), dimensions["effective"].max()))
     ax_dimension.plot([0, limit], [0, limit], "--", color=GRAY, linewidth=0.7)
-    ax_dimension.legend(loc="upper left", handletextpad=0.35, labelspacing=0.25)
+    ax_dimension.legend(loc="upper right", handletextpad=0.35, labelspacing=0.25)
     ax_dimension.set_xlabel("Formal dimension")
     ax_dimension.set_ylabel("Mean effective dimension")
     ax_dimension.set_title("Formal versus effective dimension")
@@ -287,7 +294,15 @@ def figure1() -> None:
     clean(ax_entropy)
 
     for label, axis in zip("abcde", [ax_heat, ax_change, ax_dimension, ax_volume, ax_entropy]):
-        panel(axis, label)
+        if label in {"c", "d"}:
+            x_position = 0.01 if label == "c" else -0.22
+            axis.text(
+                x_position, 1.07, label, transform=axis.transAxes,
+                fontsize=8, fontweight="bold", ha="left", va="top",
+                clip_on=False,
+            )
+        else:
+            panel(axis, label)
     export(fig, "fig1_selection_complexity")
 
 
@@ -500,8 +515,8 @@ def figure4() -> None:
     )
     for domain, domain_label, color, marker in styles:
         subset = decomposition[decomposition["domain"] == domain]
-        axes[0, 2].scatter(subset["fit"], subset["penalty"], color=color, marker=marker, s=22)
-    axes[0, 2].set_xlabel("Mean deviance gap")
+        axes[0, 2].scatter(np.log10(1.0 + subset["fit"].clip(lower=0.0)), subset["penalty"], color=color, marker=marker, s=22)
+    axes[0, 2].set_xlabel(r"$\log_{10}(1+\mathrm{mean\ deviance\ gap})$")
     axes[0, 2].set_ylabel(r"$2d_{\rm eff}$")
     axes[0, 2].set_title("Predictive fit-complexity balance")
     clean(axes[0, 2])
@@ -565,7 +580,7 @@ def figure5() -> None:
     )
     styles = [
         ("naive_wald", GRAY, "s", "Raw Wald"),
-        ("geometric_quotient", BLUE, "o", "Quotient Wald"),
+        ("geometric_quotient", BLUE, "o", "Geometric quotient"),
         ("simulation_calibrated", TEAL, "^", "Calibrated"),
     ]
     for axis, scenario, title in (
