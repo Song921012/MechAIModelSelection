@@ -294,10 +294,11 @@ def figure1() -> None:
     clean(ax_entropy)
 
     for label, axis in zip("abcde", [ax_heat, ax_change, ax_dimension, ax_volume, ax_entropy]):
-        if label in {"c", "d"}:
-            x_position = 0.01 if label == "c" else -0.22
+        if label in {"c", "d", "e"}:
+            x_position = {"c": -0.18, "d": -0.22, "e": -0.18}[label]
+            y_position = 1.10 if label == "e" else 1.07
             axis.text(
-                x_position, 1.07, label, transform=axis.transAxes,
+                x_position, y_position, label, transform=axis.transAxes,
                 fontsize=8, fontweight="bold", ha="left", va="top",
                 clip_on=False,
             )
